@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     rails-carrierwave-focuspoint (0.0.3)
-      rails (~> 3.2.21)
+      rails (>= 3.2.21)
 
 GEM
   remote: https://rubygems.org/
@@ -85,7 +85,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.44)
+    tzinfo (0.3.46)
 
 PLATFORMS
   ruby
@@ -93,6 +93,3 @@ PLATFORMS
 DEPENDENCIES
   jquery-rails
   rails-carrierwave-focuspoint!
-
-BUNDLED WITH
-   1.10.6

@@ -9,71 +9,72 @@ This gem based on [helper tool](http://jonom.github.io/jquery-focuspoint/demos/h
 in Gemfile
 
 ```Ruby
-    gem 'rails-carrierwave-focuspoint'
+gem 'rails-carrierwave-focuspoint'
 ```
 
 ## Usage
 
-For using this gem you must add fields `focus_x:decimal` and `focus_y:decimal` to your db table used for storing CarrierWave picture information. Use migration:
+For using this gem you must add fields `focus_x:decimal` and `focus_y:decimal` to your db table used for storing CarrierWave picture information. 
 
-```Ruby
-    class AddFocusToUsers < ActiveRecord::Migration
-      def change
-        add_column :users, :focus_x, :decimal
-        add_column :users, :focus_y, :decimal
-      end
-    end
+```bash
+rails g migration add_focuspoint_to_posts focus_x:decimal focus_y:decimal
+```
+
+```ruby
+class AddFocuspointToPosts < ActiveRecord::Migration
+  def change
+    add_column :posts, :focus_x, :decimal
+    add_column :posts, :focus_y, :decimal
+  end
+end
 ```
 
 in CarrierWave uploader
 
 ```Ruby
-    class UserAvatarUploader < CarrierWave::Uploader::Base
-      include CarrierWave::MiniMagick
-      
-      version :small do
-        process crop_with_focuspoint: [100, 100]
-      end
-      
-      version :big do
-        process crop_with_focuspoint: [300, 200]
-      end
-    end
+class PhotoUploader < CarrierWave::Uploader::Base
+  include CarrierWave::MiniMagick
+  
+  version :small do
+    process crop_with_focuspoint: [100, 100]
+  end
+  
+  version :big do
+    process crop_with_focuspoint: [300, 200]
+  end
+end
 ```
 
 in model
 
 ```Ruby
-    class User < ActiveRecord::Base
-        mount_uploader :avatar, UserAvatarUploader
-    end
+class Post < ActiveRecord::Base
+  mount_uploader :photo, PhotoUploader
+end
 ```
 
-in .js file
+in .js.coffee file
 
-```js
-    //= require focuspoint.js
-    //= require_self
+```cofffeescript
+#= require focuspoint_control
     
-    $(document).ready(function() {
-        document.focuspoint.init(file_input_id: 'user_avatar');
-    });
+$ ->
+  # Activate Focuspoint
+  $("#post_photo").focuspoint()
 ```
 
 in .css file
 
 ```css
-    /*
-    *= require focuspoint_control.css
-    */
+*= require focuspoint_control
 ```
 
 in view template
-
-```haml
-    = form_for @user do |f|
-        = f.input :avatar
-        = f.focuspoint_control :avatar
+#TODO: FIGURE THIS PART OUT
+```html.erb
+form_for @post do |f|
+  f.input :photo
+  f.focuspoint_control :photo
 ```
 
 ## LICENSE
